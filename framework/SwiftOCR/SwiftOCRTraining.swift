@@ -88,20 +88,20 @@ open class SwiftOCRTraining {
             return OCRFont(name: randomFontName(), size: 45 + randomFloat(5))!
         }
     
-        let randomFontAttributes: () -> [String:NSObject] = {
+        let randomFontAttributes: () -> [NSAttributedStringKey:Any] = {
             
             #if os(iOS)
                 let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             #else
-                let paragraphStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+                let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             #endif
             
             paragraphStyle.alignment = NSTextAlignment.center
             
-            return [NSFontAttributeName: randomFont(),
-                    NSKernAttributeName: CGFloat(8) as NSObject,
-                    NSForegroundColorAttributeName: OCRColor(red: 27/255 + randomFloat(0.2), green: 16/255 + randomFloat(0.2), blue: 16/255 + randomFloat(0.2), alpha: 80/100 + randomFloat(0.2)),
-                    NSParagraphStyleAttributeName: paragraphStyle]
+            return [NSAttributedStringKey.font: randomFont(),
+                    NSAttributedStringKey.kern: CGFloat(8) as NSObject,
+                    NSAttributedStringKey.foregroundColor: OCRColor(red: 27/255 + randomFloat(0.2), green: 16/255 + randomFloat(0.2), blue: 16/255 + randomFloat(0.2), alpha: 80/100 + randomFloat(0.2)),
+                    NSAttributedStringKey.paragraphStyle: paragraphStyle]
         }
         
         //Image

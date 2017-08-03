@@ -112,7 +112,7 @@ open class SwiftOCR {
                          recognizedString.append(recognizedChar)
                          */
                         
-                        for (networkIndex, _) in networkResult.enumerated().sorted(by: {$0.0.element > $0.1.element}) {
+                        for (networkIndex, _) in networkResult.enumerated().sorted(by: {a, b in a.element > b.element}) {
                             let character = indexToCharacter(networkIndex)
                             
                             guard checkWhiteAndBlackListForCharacter(character) else {
@@ -379,7 +379,7 @@ open class SwiftOCR {
                 }
                 
                 let transposedData = Array(data[minY...maxY].map({return $0[(minX + 2)...(maxX - 2)]})).transpose() // [y][x] -> [x][y]
-                let reducedMaxIndexArray = transposedData.map({return $0.reduce(0, {return UInt32($0.0) + UInt32($0.1)})}) //Covert to UInt32 to prevent overflow
+                let reducedMaxIndexArray = transposedData.map({return $0.reduce(0, {a, b in return UInt32(a) + UInt32(b)})}) //Covert to UInt32 to prevent overflow
                 let maxIndex = reducedMaxIndexArray.enumerated().max(by: {return $0.1 < $1.1})?.0 ?? 0
                 
                 
@@ -457,7 +457,7 @@ open class SwiftOCR {
             }
         }
         
-        outputImages.sort(by: {return $0.0.1.origin.x < $0.1.1.origin.x})
+        outputImages.sort(by: {a, b in return a.1.origin.x < b.1.origin.x})
         return outputImages
         
     }
@@ -706,7 +706,7 @@ public struct SwiftOCRRecognizedBlob {
     public let boundingBox:              CGRect!
     
     init(charactersWithConfidence: [(character: Character, confidence: Float)]!, boundingBox: CGRect) {
-        self.charactersWithConfidence = charactersWithConfidence.sorted(by: {return $0.0.confidence > $0.1.confidence})
+        self.charactersWithConfidence = charactersWithConfidence.sorted(by: {a, b in return a.confidence > b.confidence})
         self.boundingBox = boundingBox
     }
     
